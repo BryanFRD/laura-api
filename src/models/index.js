@@ -1,0 +1,10 @@
+exports.UserCredentialModel = require('./UserCredential.model');
+exports.UserAccountModel = require('./UserAccount.model');
+exports.RoleModel = require('./Role.model');
+exports.InvoiceModel = require('./Invoice.model');
+exports.AddressModel = require('./Address.model');
+exports.ArticleModel = require('./Article.model');
+exports.CategoryModel = require('./Category.model');
+exports.ImageModel = require('./Image.model');
+exports.ArticleCategoryModel = require('./ArticleCategory.model');
+exports.ArticleUserAccountModel = require('./ArticleUserAccount.model');

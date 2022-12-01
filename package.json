@@ -4,25 +4,37 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon App.js",
-    "start": "node App.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  "author": "Bryan",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BryanFRD/laura-api.git"
+  },
+  "keywords": [],
+  "author": "FERRANDO Bryan",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BryanFRD/laura-api/issues"
+  },
+  "homepage": "https://github.com/BryanFRD/laura-api#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cookie": "^0.5.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "graphql": "^0.13.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.8.0",
+    "graphql-middleware": "^6.1.33",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
-    "nodemailer": "^6.8.0",
-    "sequelize": "^6.25.7",
+    "sequelize": "^6.25.8",
     "sequelize-graphql": "^0.0.2"
   },
   "devDependencies": {
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.20"
   }
 }
