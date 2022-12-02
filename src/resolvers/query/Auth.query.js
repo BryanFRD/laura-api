@@ -18,7 +18,6 @@ const login = {
       return userCredential;
     }
     
-    return null;
   }
 }
 
