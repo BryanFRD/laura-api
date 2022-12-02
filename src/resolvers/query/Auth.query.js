@@ -15,7 +15,7 @@ const login = {
     const userCredential = await UserCredentialModel.findOne({where: {email}});
     
     if(userCredential?.authenticate(password)){
-      
+      return userCredential;
     }
     
     return null;

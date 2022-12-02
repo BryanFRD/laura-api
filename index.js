@@ -8,7 +8,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./src/schemas');
-const { applyMiddleware } = require('graphql-middleware');
+const { applyMiddlewareToDeclaredResolvers } = require('graphql-middleware');
 const authMiddleware = require('./src/middlewares/Auth.middleware');
 
 const start = async () => {
@@ -24,7 +24,7 @@ const start = async () => {
   
   const app = express();
   
-  const schemaWithMiddleware = applyMiddleware(schema, authMiddleware);
+  const schemaWithMiddleware = applyMiddlewareToDeclaredResolvers(schema, authMiddleware);
   
   app.use(
     cors({origin: process.env.ORIGIN, credentials: true}),
