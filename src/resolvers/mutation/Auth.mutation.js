@@ -12,7 +12,7 @@ const register = {
     lastname: {type: new GraphQLNonNull(GraphQLString)}
   },
   resolve: async (_, {email, password, firstname, lastname}) => {
-    const transaction = await database.transaction({autocommit: false});
+    const transaction = await database.transaction();
     
     const {value, error} = await UserCredentialModel.create(
       {email, password, user_account: {firstname, lastname}},

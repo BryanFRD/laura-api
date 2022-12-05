@@ -10,6 +10,7 @@ const { graphqlHTTP } = require('express-graphql');
 const schema = require('./src/schemas');
 const { applyMiddlewareToDeclaredResolvers } = require('graphql-middleware');
 const authMiddleware = require('./src/middlewares/Auth.middleware');
+const statusHandlerMiddleware = require('./src/middlewares/StatusHandler.middleware');
 
 const start = async () => {
   const err = await database.sync()
@@ -24,7 +25,7 @@ const start = async () => {
   
   const app = express();
   
-  const schemaWithMiddleware = applyMiddlewareToDeclaredResolvers(schema, authMiddleware);
+  const schemaWithMiddleware = applyMiddlewareToDeclaredResolvers(schema, statusHandlerMiddleware, authMiddleware);
   
   app.use(
     cors({origin: process.env.ORIGIN, credentials: true}),

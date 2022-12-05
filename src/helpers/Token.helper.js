@@ -3,19 +3,21 @@ const jwt = require('jsonwebtoken');
 class Token {
   
   static generateAuthToken = (data) => {
-    return this.#generateToken(data, process.env.AUTH_SECRET, {expiresIn: '30d'});
+    return this.#generateToken(data, process.env.AUTH_SECRET, 30);
   }
   
   static generateAccessToken = (data) => {
-    return this.#generateToken(data, process.env.ACCESS_SECRET, {expiresIn: '1d'});
+    return this.#generateToken(data, process.env.ACCESS_SECRET, 1);
   }
   
   static generateEmailToken = (data) => {
-    return this.#generateToken(data, process.env.EMAIL_SECRET, {expiresIn: '7d'});
+    return this.#generateToken(data, process.env.EMAIL_SECRET, 7);
   }
   
-  static #generateToken = (data, secret, options) => {
-    return jwt.sign(data, secret, options)
+  static #generateToken = (data, secret, expires) => {
+    expires *= 24 * 60 * 60 * 1000;
+    
+    return {token: jwt.sign(data, secret, {expiresIn: expires}), expires}
   }
   
   static verifyAuthToken = (token) => {

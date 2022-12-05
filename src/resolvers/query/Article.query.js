@@ -1,4 +1,5 @@
 const { GraphQLID, GraphQLList, GraphQLNonNull } = require('graphql');
+const NotFoundError = require('../../errors/NotFound.error');
 const ArticleModel = require('../../models/Article.model');
 
 const getArticle = {
@@ -8,12 +9,23 @@ const getArticle = {
       type: new GraphQLNonNull(GraphQLID)
     }
   },
-  resolve: (_, {id}) => ArticleModel.findByPk(id)
+  resolve: async (_, {id}) => {
+    const article = await ArticleModel.findByPk(id);
+    
+    if(!article)
+      throw new NotFoundError();
+    
+    return article;
+  }
 }
 
 const getArticles = {
   type: new GraphQLList(require('../../types/Article.type')),
-  resolve: () => ArticleModel.findAll()
+  resolve: async () => {
+    const articles = await ArticleModel.findAll();
+    
+    return articles
+  }
 }
 
 module.exports = { getArticle, getArticles }

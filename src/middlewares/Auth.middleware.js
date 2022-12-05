@@ -1,5 +1,6 @@
 const { RESTRICTED_ROUTES } = require('../configs/Config');
 const Token = require('../helpers/Token.helper');
+const UnauthorizedError = require('../errors/Unauthorized.error');
 
 const authMiddleware = async (resolve, parent, args, context, info) => {
   const field = info.fieldName;
@@ -13,7 +14,7 @@ const authMiddleware = async (resolve, parent, args, context, info) => {
       return await resolve(parent, args, context, info);
     }
     
-    throw new Error('Not Authorized');
+    throw new UnauthorizedError();
   }
   
   return await resolve(parent, args, context, info);

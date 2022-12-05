@@ -1,6 +1,8 @@
 const { GraphQLObjectType, GraphQLID, GraphQLString } = require('graphql');
 const BaseType = require('./Base.type');
 const RoleType = require('./Role.type');
+const NotFoundError = require('../errors/NotFound.error');
+const RoleModel = require('../models/Role.model');
 
 const UserAccountType = new GraphQLObjectType({
   name: 'useraccount',
@@ -10,10 +12,13 @@ const UserAccountType = new GraphQLObjectType({
     lastname: {type: GraphQLString},
     role: {
       type: RoleType,
-      resolve: (root) => {
+      resolve: async (parent, args) => {
+        const role = parent.role ?? await RoleModel.findByPk(parent.roleId);
         
+        if(!role)
+          throw new NotFoundError();
         
-        return null;
+        return role;
       }
     }
   })
