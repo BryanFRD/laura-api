@@ -1,9 +1,50 @@
 const { GraphQLString, GraphQLNonNull } = require('graphql');
+const database = require('../../database/database');
 const UnauthorizedError = require('../../errors/Unauthorized.error');
 const Token = require('../../helpers/Token.helper');
-const { UserAccountModel, RoleModel } = require('../../models');
-const UserCredentialModel = require('../../models/UserCredential.model');
+const { UserAccountModel, RoleModel, UserCredentialModel } = require('../../models');
 const UserAccountType = require('../../types/UserAccount.type');
+const StatusType = require('../../types/Status.type');
+const UserCredentialValidator = require('../../validators/UserCredential.validator');
+const ValidationError = require('../../errors/Validation.error');
+const Mailer = require('../../helpers/Mailer.helper.js');
+
+const register = {
+  type: StatusType,
+  args: {
+    email: {type: new GraphQLNonNull(GraphQLString)},
+    password: {type: new GraphQLNonNull(GraphQLString)},
+    firstname: {type: new GraphQLNonNull(GraphQLString)},
+    lastname: {type: new GraphQLNonNull(GraphQLString)}
+  },
+  resolve: async (_, {email, password, firstname, lastname}) => {
+    const {value, error} = UserCredentialValidator.createSchema.validate({email, password, user_account: {firstname, lastname}});
+    
+    if(error)
+      throw new ValidationError(error);
+    
+    const transaction = await database.transaction();
+    const {err} = await UserCredentialModel.create(value,
+      {transaction, include: UserAccountModel})
+      .then(() => {
+        transaction.rollback();
+        
+        const token = Token.generateEmailToken(value);
+        Mailer.sendAccountCreationMail(value.email, token);
+        
+        return {};
+      }, err => {
+        transaction.rollback();
+        return {err};
+      });
+    
+    if(err){
+      throw new Error(err);
+    }
+    
+    return;
+  }
+}
 
 const login = {
   type: UserAccountType,
@@ -41,8 +82,10 @@ const login = {
         signed: true
       });
       
-      return userCredential.toJSON();
+      return userCredential.toJSON().user_account;
     }
+    
+    throw new UnauthorizedError();
   }
 }
 
@@ -85,4 +128,4 @@ const renewToken = {
   }
 }
 
-module.exports = { login, renewToken }
+module.exports = { register, login, renewToken }

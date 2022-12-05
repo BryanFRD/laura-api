@@ -1,20 +1,12 @@
-const { GraphQLID, GraphQLString, GraphQLEnumType } = require('graphql');
+const { GraphQLID, GraphQLString } = require('graphql');
+const { StatusField } = require('./Status.type');
 
 const BaseType = {
     id: {type: GraphQLID},
     createdAt: {type: GraphQLString},
     updatedAt: {type: GraphQLString},
     deletedAt: {type: GraphQLString},
-    status: {type: new GraphQLEnumType({
-      name: 'status',
-      values: {
-        SUCCESS: {value: 'SUCCESS'},
-        NOT_FOUND: {value: 'NOT_FOUND'},
-        UNAUTHORIZED: {value: 'UNAUTHORIZED'},
-        ERROR: {value: 'ERROR'}
-      }
-    })
-  }
+    ...StatusField
 }
 
 module.exports = BaseType;

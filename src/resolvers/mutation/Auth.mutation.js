@@ -1,35 +1,46 @@
 const database = require('../../database/database');
 const { GraphQLNonNull, GraphQLString } = require('graphql');
 const UserCredentialModel = require('../../models/UserCredential.model');
-const { UserAccountModel } = require('../../models');
+const { UserAccountModel, RoleModel } = require('../../models');
+const Token = require('../../helpers/Token.helper');
+const UserCredentialValidator = require('../../validators/UserCredential.validator');
+const ValidationError = require('../../errors/Validation.error');
 
 const register = {
-  type: require('../../types/UserAccount.type'),
+  type: require('../../types/Status.type'),
   args: {
-    email: {type: new GraphQLNonNull(GraphQLString)},
-    password: {type: new GraphQLNonNull(GraphQLString)},
-    firstname: {type: new GraphQLNonNull(GraphQLString)},
-    lastname: {type: new GraphQLNonNull(GraphQLString)}
+    token: {type: new GraphQLNonNull(GraphQLString)},
   },
-  resolve: async (_, {email, password, firstname, lastname}) => {
+  resolve: async (_, {token}) => {
+    const val = Token.verifyEmailToken(token);
+    
+    const {value, error} = UserCredentialValidator.createSchema.validate(val, {stripUnknown: true});
+    
+    if(error){
+      throw new ValidationError(error);
+    }
+    
     const transaction = await database.transaction();
     
-    const {value, error} = await UserCredentialModel.create(
-      {email, password, user_account: {firstname, lastname}},
-      {transaction, include: UserAccountModel})
-      .then(value => {
+    const {err} = await UserCredentialModel.create(
+      value,
+      {
+        transaction,
+        include: [UserAccountModel]
+      })
+      .then(() => {
         transaction.commit();
-        return {value};
-      }, error => {
+        return {};
+      }, err => {
         transaction.rollback();
-        return {error};
+        return {err};
       });
-      
-    if(error){
-      throw new Error(error)
+    
+    if(err){
+      throw new Error(err)
     }
-      
-    return value;
+    
+    return;
   }
 }
 

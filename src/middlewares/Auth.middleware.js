@@ -1,10 +1,10 @@
-const { RESTRICTED_ROUTES } = require('../configs/Config');
+const Config = require('../configs/Config');
 const Token = require('../helpers/Token.helper');
 const UnauthorizedError = require('../errors/Unauthorized.error');
 
 const authMiddleware = async (resolve, parent, args, context, info) => {
   const field = info.fieldName;
-  const condition = RESTRICTED_ROUTES[field];
+  const condition = Config.RESTRICTED_ROUTES[field];
   
   if(condition){
     const { accessToken } = context.signedCookies;

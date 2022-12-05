@@ -18,4 +18,4 @@ const createArticle = {
   }
 }
 
-module.exports = { createArticle}
+module.exports = { createArticle }

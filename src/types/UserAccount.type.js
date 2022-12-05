@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLID, GraphQLString } = require('graphql');
+const { GraphQLObjectType, GraphQLString } = require('graphql');
 const BaseType = require('./Base.type');
 const RoleType = require('./Role.type');
 const NotFoundError = require('../errors/NotFound.error');
