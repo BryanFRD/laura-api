@@ -7,7 +7,7 @@ const UserAccountType = require('../../types/UserAccount.type');
 const UserCredentialValidator = require('../../validators/UserCredential.validator');
 const ValidationError = require('../../errors/Validation.error');
 const Mailer = require('../../helpers/Mailer.helper.js');
-const VoidType = require('../../types/Void.type')
+const VoidType = require('../../types/Void.type');
 
 const register = {
   type: VoidType,
@@ -47,7 +47,7 @@ const register = {
 }
 
 const login = {
-  type: VoidType,
+  type: UserAccountType,
   args: {
     email: {
       type: new GraphQLNonNull(GraphQLString)

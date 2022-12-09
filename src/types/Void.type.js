@@ -1,17 +1,10 @@
-const { GraphQLScalarType } = require('graphql');
+const { GraphQLObjectType, GraphQLBoolean } = require('graphql');
 
-const VoidType = new GraphQLScalarType({
+const VoidType = new GraphQLObjectType({
   name: 'void',
-  description: 'Represents void return.',
-  serialize: () => {
-    return null;
-  },
-  parseValue: () => {
-    return null;
-  },
-  parseLiteral: () => {
-    return null;
-  }
+  fields: () => ({
+    void: {type: GraphQLBoolean}
+  })
 });
 
 module.exports = VoidType;

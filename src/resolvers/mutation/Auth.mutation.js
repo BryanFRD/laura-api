@@ -1,13 +1,14 @@
 const database = require('../../database/database');
 const { GraphQLNonNull, GraphQLString } = require('graphql');
 const UserCredentialModel = require('../../models/UserCredential.model');
-const { UserAccountModel, RoleModel } = require('../../models');
+const { UserAccountModel } = require('../../models');
 const Token = require('../../helpers/Token.helper');
 const UserCredentialValidator = require('../../validators/UserCredential.validator');
 const ValidationError = require('../../errors/Validation.error');
+const VoidType = require('../../types/Void.type');
 
 const register = {
-  type: require('../../types/Void.type'),
+  type: VoidType,
   args: {
     token: {type: new GraphQLNonNull(GraphQLString)},
   },
