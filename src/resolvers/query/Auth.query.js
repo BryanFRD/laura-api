@@ -4,13 +4,13 @@ const UnauthorizedError = require('../../errors/Unauthorized.error');
 const Token = require('../../helpers/Token.helper');
 const { UserAccountModel, RoleModel, UserCredentialModel } = require('../../models');
 const UserAccountType = require('../../types/UserAccount.type');
-const StatusType = require('../../types/Status.type');
 const UserCredentialValidator = require('../../validators/UserCredential.validator');
 const ValidationError = require('../../errors/Validation.error');
 const Mailer = require('../../helpers/Mailer.helper.js');
+const VoidType = require('../../types/Void.type')
 
 const register = {
-  type: StatusType,
+  type: VoidType,
   args: {
     email: {type: new GraphQLNonNull(GraphQLString)},
     password: {type: new GraphQLNonNull(GraphQLString)},
@@ -39,7 +39,7 @@ const register = {
       });
     
     if(err){
-      throw new Error(err);
+      throw err;
     }
     
     return;
@@ -47,7 +47,7 @@ const register = {
 }
 
 const login = {
-  type: UserAccountType,
+  type: VoidType,
   args: {
     email: {
       type: new GraphQLNonNull(GraphQLString)

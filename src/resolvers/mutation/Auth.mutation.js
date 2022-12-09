@@ -7,7 +7,7 @@ const UserCredentialValidator = require('../../validators/UserCredential.validat
 const ValidationError = require('../../errors/Validation.error');
 
 const register = {
-  type: require('../../types/Status.type'),
+  type: require('../../types/Void.type'),
   args: {
     token: {type: new GraphQLNonNull(GraphQLString)},
   },
@@ -37,7 +37,7 @@ const register = {
       });
     
     if(err){
-      throw new Error(err)
+      throw new Error(err);
     }
     
     return;

@@ -2,12 +2,10 @@ const statusHandlerMiddleware = async (resolve, parent, args, context, info) => 
   try {
     const result = await resolve(parent, args, context, info);
     
-    if(Array.isArray(result))
-      return result;
-    
-    return {...result, status: 'SUCCESS'}
+    return result;
   } catch(error) {
-    return {status: error.STATUS ?? 'ERROR'}
+    context.res.status(error.status ?? 400)
+    throw error;
   }
 }
 

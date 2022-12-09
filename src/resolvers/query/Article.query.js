@@ -1,5 +1,4 @@
 const { GraphQLID, GraphQLList, GraphQLNonNull } = require('graphql');
-const NotFoundError = require('../../errors/NotFound.error');
 const ArticleModel = require('../../models/Article.model');
 
 const getArticle = {
@@ -11,11 +10,7 @@ const getArticle = {
   },
   resolve: async (_, {id}) => {
     const article = await ArticleModel.findByPk(id);
-    
-    if(!article)
-      throw new NotFoundError();
-    
-    return article;
+    return article?.toJSON();
   }
 }
 
@@ -24,7 +19,7 @@ const getArticles = {
   resolve: async () => {
     const articles = await ArticleModel.findAll();
     
-    return articles
+    return articles;
   }
 }
 

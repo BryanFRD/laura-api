@@ -11,6 +11,7 @@ const schema = require('./src/schemas');
 const { applyMiddlewareToDeclaredResolvers } = require('graphql-middleware');
 const authMiddleware = require('./src/middlewares/Auth.middleware');
 const statusHandlerMiddleware = require('./src/middlewares/StatusHandler.middleware');
+const RoleModel = require('./src/models/Role.model');
 
 const start = async () => {
   const err = await database.sync()
@@ -22,6 +23,8 @@ const start = async () => {
     
     return;
   }
+  
+  await initializeDefaultRows();
   
   const app = express();
   
@@ -39,6 +42,17 @@ const start = async () => {
   }));
   
   app.listen(process.env.PORT);
+}
+
+const initializeDefaultRows = async () => {
+  await RoleModel.findOrCreate({
+    where: {id: '28579100-c968-4745-b83d-7247f7b130ce'},
+    defaults: {
+      id: '28579100-c968-4745-b83d-7247f7b130ce',
+      title: 'Utilisateur',
+      weight: 1
+    }
+  });
 }
 
 start();

@@ -1,6 +1,7 @@
 class UnauthorizedError extends Error {
   
-  STATUS = 'UNAUTHORIZED'
+  message = 'Unauthorized';
+  status = 401;
   
 }
 

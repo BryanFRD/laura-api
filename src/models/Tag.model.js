@@ -1,9 +1,11 @@
 const database = require('../database/database');
 const { Model, DataTypes } = require('sequelize');
+const CategoryModel = require('./Category.model');
+const CategoryTagModel = require('./CategoryTag.model');
 
-class CategoryModel extends Model {}
+class TagModel extends Model {}
 
-CategoryModel.init({
+TagModel.init({
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -21,8 +23,11 @@ CategoryModel.init({
 },
 {
   sequelize: database,
-  modelName: 'category',
+  modelName: 'tag',
   paranoid: true
 });
 
-module.exports = CategoryModel;
+TagModel.belongsToMany(CategoryModel, {through: CategoryTagModel});
+CategoryModel.belongsToMany(TagModel, {through: CategoryTagModel});
+
+module.exports = TagModel;

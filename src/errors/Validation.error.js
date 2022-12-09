@@ -1,6 +1,7 @@
 class ValidationError extends Error {
   
-  STATUS = 'VALIDATION';
+  message = 'Validation error';
+  status = 400;
   
 }
 

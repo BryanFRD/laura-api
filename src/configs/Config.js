@@ -5,7 +5,6 @@ const Config = {
     createArticle: ({user}) => isAdmin(user)
   },
   mail: {
-    // [accountCreation, password]
     accountCreation: {
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
@@ -15,7 +14,7 @@ const Config = {
         pass: process.env.EMAIL_PASS
       },
       mailOptions: ({token}) => {
-        const confirmationLink = `https://${process.env.APP_URL}/confirmation`;
+        const confirmationLink = `${process.env.APP_URL}/confirmation`;
         const confirmationLinkWithToken = `${confirmationLink}/${token}`;
         
         return {

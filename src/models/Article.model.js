@@ -1,8 +1,8 @@
 const database = require('../database/database');
 const { Model, DataTypes } = require('sequelize');
 const ImageModel = require('./Image.model');
-const CategoryModel = require('./Category.model');
-const ArticleCategoryModel = require('./ArticleCategory.model');
+const TagModel = require('./Tag.model');
+const ArticleTagModel = require('./ArticleTag.model');
 
 class ArticleModel extends Model {}
 
@@ -50,7 +50,7 @@ ArticleModel.init({
 ArticleModel.hasMany(ImageModel);
 ImageModel.belongsTo(ArticleModel);
 
-ArticleModel.hasMany(CategoryModel);
-CategoryModel.belongsToMany(ArticleModel, {through: ArticleCategoryModel});
+ArticleModel.belongsToMany(TagModel, {through: ArticleTagModel});
+TagModel.belongsToMany(ArticleModel, {through: ArticleTagModel});
 
 module.exports = ArticleModel;

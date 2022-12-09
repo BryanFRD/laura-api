@@ -31,14 +31,15 @@ UserAccountModel.init({
 });
 
 RoleModel.hasMany(UserAccountModel);
-UserAccountModel.belongsTo(RoleModel);
+UserAccountModel.belongsTo(RoleModel, {
+  foreignKey: {
+    defaultValue: '28579100-c968-4745-b83d-7247f7b130ce',
+    allowNull: false
+  }
+});
 
-UserAccountModel.belongsToMany(ArticleModel, {
-  through: ArticleUserAccountModel
-});
-ArticleModel.belongsToMany(UserAccountModel, {
-  through: ArticleUserAccountModel
-});
+UserAccountModel.belongsToMany(ArticleModel, {through: ArticleUserAccountModel});
+ArticleModel.belongsToMany(UserAccountModel, {through: ArticleUserAccountModel});
 
 UserAccountModel.hasMany(AddressModel);
 AddressModel.belongsTo(UserAccountModel);

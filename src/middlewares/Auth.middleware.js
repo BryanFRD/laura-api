@@ -14,6 +14,7 @@ const authMiddleware = async (resolve, parent, args, context, info) => {
       return await resolve(parent, args, context, info);
     }
     
+    // throw new UnauthorizedError(`Not authorized to access '${field}'.`);
     throw new UnauthorizedError();
   }
   

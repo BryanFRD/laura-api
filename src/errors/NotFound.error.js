@@ -1,6 +1,7 @@
 class NotFoundError extends Error {
   
-  STATUS = 'NOT_FOUND';
+  message = 'Not found';
+  status = 404;
   
 }
 
