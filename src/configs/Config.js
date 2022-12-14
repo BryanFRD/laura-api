@@ -1,4 +1,4 @@
-const isAdmin = (user) => user.role?.weight >= 32;
+const isAdmin = ({role}) => role?.weight >= 32;
 
 const Config = {
   RESTRICTED_ROUTES: {
@@ -15,7 +15,7 @@ const Config = {
       },
       mailOptions: ({token}) => {
         const confirmationLink = `${process.env.APP_URL}/confirmation`;
-        const confirmationLinkWithToken = `${confirmationLink}/${token}`;
+        const confirmationLinkWithToken = `${confirmationLink}/${token.token}`;
         
         return {
           from: `"L'aura" <${process.env.EMAIL_USER}>`,
@@ -37,3 +37,4 @@ const Config = {
 }
 
 module.exports = Config;
+module.exports.isAdmin = isAdmin;

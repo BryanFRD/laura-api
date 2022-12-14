@@ -1,4 +1,5 @@
-const { GraphQLObjectType, GraphQLString, GraphQLInt } = require('graphql');
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLBoolean } = require('graphql');
+const Config = require('../configs/Config');
 const BaseType = require('./Base.type');
 
 const RoleType = new GraphQLObjectType({
@@ -6,7 +7,13 @@ const RoleType = new GraphQLObjectType({
   fields: () => ({
     ...BaseType,
     title: {type: GraphQLString},
-    weight: {type: GraphQLInt}
+    weight: {type: GraphQLInt},
+    isAdmin: {
+      type: GraphQLBoolean,
+      resolve: (role) => {
+        return Config.isAdmin({role});
+      }
+    }
   })
 });
 
