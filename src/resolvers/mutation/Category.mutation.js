@@ -1,13 +1,15 @@
 const database = require('../../database/database');
-const { GraphQLNonNull, GraphQLString, GraphQLFloat } = require('graphql');
+const { GraphQLNonNull, GraphQLString, GraphQLInt, GraphQLList } = require('graphql');
 
 const createCategory = {
-  type: require('../../types/Article.type'),
+  type: require('../../types/Category.type'),
   args: {
-    title: {type: new GraphQLNonNull(GraphQLString)}
+    title: {type: new GraphQLNonNull(GraphQLString)},
+    showOrder: {type: new GraphQLNonNull(GraphQLInt)},
+    tags: {type: new GraphQLList(GraphQLInt)}
   },
-  resolve: async (_, {title}) => {
-    
+  resolve: async (_, {title, showOrder, tags}) => {
+    console.log('create Category', title, showOrder, tags);
     
     return null;
   }
